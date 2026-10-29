@@ -1,0 +1,50 @@
+# Settings that 01-idc_notebook.ipynb actually executed (the values passed to
+# fit/compile, not the unused globals). Use to reproduce the notebook run.
+# Not reproducible: the notebook's model also contained a Normalization layer
+# adapted on an `x_train` array that is not defined in the saved notebook.
+
+dataset: idc
+data_root: ./data
+train_ratio: 0.72
+val_ratio: 0.08
+test_ratio: 0.20
+max_per_class: 0
+
+patch_size: 16             # 48/16 -> 9 tokens
+embed_dim: 128
+num_heads: 4
+num_blocks: 4
+mlp_dim: 256
+attention_dropout: 0.1
+projection_dropout: 0.1
+mlp_dropout: 0.2
+attention_type: mha_self_attention
+
+batch_size: 32             # BS used by the generators
+epochs: 5                  # NUM_EPOCHS passed to fit
+learning_rate: 1.0e-3
+weight_decay: 1.0e-4
+label_smoothing: 0.1
+class_weights: max_ratio
+monitor: loss              # notebook selected the checkpoint on TRAINING loss
+lr_factor: 0.8
+lr_patience: 3
+lr_cooldown: 3
+lr_min_delta: 1.0e-4
+min_lr: 1.0e-4
+early_stop_patience: 0
+
+augment: true
+rotation_deg: 20
+zoom: 0.05
+shift: 0.1
+shear: 0.05
+color_jitter: 0.0
+
+seed: 42
+data_seed: 42
+amp: false
+deterministic: false
+n_bootstrap: 1000
+check_duplicates: true
+output_dir: ./results

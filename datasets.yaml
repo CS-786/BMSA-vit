@@ -1,0 +1,27 @@
+# Dataset registry. `root` is relative to --data_root unless absolute.
+# split_mode:
+#   folders -> <root>/training|validation|testing/<class>/*.png  (predefined split, as in the notebook)
+#   random  -> <root>/<class>/*.png, split by the script (stratified; patient-grouped if group_by matches)
+# group_by: none | breakhis_patient | idc_patient | regex:<pattern with one capture group>
+# `classes` order fixes the label index.
+
+idc:
+  root: IDC
+  classes: ["0", "1"]          # 0 = IDC-negative, 1 = IDC-positive
+  image_size: 48               # native patch size (paper Sec. 3.3)
+  split_mode: folders
+  group_by: idc_patient        # used only to REPORT patient overlap between the predefined folders
+
+idc_patient_split:
+  root: IDC_flat               # created by scripts/prepare_idc.py
+  classes: ["0", "1"]
+  image_size: 48
+  split_mode: random
+  group_by: idc_patient
+
+breakhis:
+  root: breakhis_binary        # created by scripts/prepare_breakhis.py --mode binary
+  classes: [benign, malignant]
+  image_size: 224              # resized (paper Sec. 3.3)
+  split_mode: random
+  group_by: breakhis_patient

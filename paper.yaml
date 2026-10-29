@@ -1,0 +1,52 @@
+# Settings reported in the paper (Sec. 3.3, 3.4). Where the paper is silent,
+# the notebook value is used and marked "notebook".
+
+dataset: idc
+data_root: ./data
+train_ratio: 0.72          # paper: 80/20 train/test; 10% of train held out for checkpoint selection
+val_ratio: 0.08
+test_ratio: 0.20
+max_per_class: 0
+
+# model (paper Sec. 3.4)
+patch_size: 4
+embed_dim: 128
+num_heads: 4
+num_blocks: 4
+mlp_dim: 256               # notebook
+attention_dropout: 0.1     # notebook
+projection_dropout: 0.1    # notebook
+mlp_dropout: 0.2           # notebook
+attention_type: mha_self_attention
+
+# optimisation (paper Sec. 3.3, 3.4)
+batch_size: 16
+epochs: 100
+learning_rate: 1.0e-4
+weight_decay: 1.0e-4
+label_smoothing: 0.1
+class_weights: max_ratio   # notebook: max(count)/count
+monitor: val_loss          # checkpoint selection on validation (notebook used training loss)
+lr_factor: 0.8             # notebook ReduceLROnPlateau
+lr_patience: 3
+lr_cooldown: 3
+lr_min_delta: 1.0e-4
+min_lr: 1.0e-6             # notebook min_lr 1e-4 would disable decay at lr 1e-4
+early_stop_patience: 0     # 0 = off; paper trains a fixed 100 epochs
+
+# augmentation (paper Sec. 3.2; magnitudes from the notebook)
+augment: true
+rotation_deg: 20
+zoom: 0.05
+shift: 0.1
+shear: 0.05
+color_jitter: 0.0          # paper names brightness/contrast jitter without magnitudes
+
+# misc
+seed: 42
+data_seed: 42
+amp: false
+deterministic: false
+n_bootstrap: 1000
+check_duplicates: true
+output_dir: ./results
